@@ -284,6 +284,20 @@ reconstitue sa réserve et lance le compteur automatiquement, sans récolte de
 secours obligatoire. Les deux objectifs restent distincts pour que la nutrition
 ne verrouille pas son propre déblocage.
 
+L'interface sépare désormais les missions, toujours visibles en haut à droite,
+de la fiche de cellule. Cette dernière apparaît en haut à gauche au survol de
+la cellule et peut être épinglée par un clic gauche dans le cytoplasme, fermée
+par la croix ou remplacée en sélectionnant une autre cellule. La fiche mobile
+reste consacrée à la membrane ou à l'usine survolée ; elle ne répète le
+diagnostic complet que pour le cytoplasme. Les deux fiches présentent les
+ressources dans l'ordre ATP, O₂, nutriments.
+
+Le prototype abandonné de construction sur grille a été retiré de la scène et
+du dépôt. Son aperçu carré et son contrôleur captaient encore les clics malgré
+la construction organique actuelle. Le modèle de réseau membranaire destiné au
+futur multicellulaire est conservé dans les sources, mais n'est plus instancié
+tant qu'il n'est pas intégré à cette boucle jouable.
+
 Poursuivre la boucle physiologique décidée au message 823 en réutilisant les
 inventaires et les recettes existants. Rendre la cause des déficits lisible
 avant d'étendre la géométrie multicellulaire ou le réseau de transport complet.

@@ -40,6 +40,12 @@ avec **F5**. Godot 4.7.2 est la version utilisée pour les vérifications cloud.
 
 La caméra se déplace avec ZQSD et zoome avec la molette. La construction
 contextuelle et ses listes ne mettent pas la simulation en pause.
+Les missions occupent un panneau permanent en haut à droite. La fiche de la
+cellule apparaît en haut à gauche tant que la souris se trouve dans celle-ci ;
+un clic gauche dans le cytoplasme l'épingle. Un second clic dans le même
+cytoplasme ou la croix ferme la fiche, tandis qu'un clic dans une autre cellule
+la remplace. La petite fiche près du curseur décrit uniquement la cible survolée :
+le diagnostic complet n'est répété que sur le cytoplasme.
 Toutes les spécialisations restent visibles dans le menu de la membrane.
 Le type installé porte la mention **(équipé)** et ne peut pas être racheté.
 Les options verrouillées ou trop coûteuses restent affichées, mais désactivées.
@@ -99,10 +105,11 @@ godot --headless --path biofactory --script res://tests/test_membrane_selection.
 godot --headless --path biofactory --script res://tests/test_nutrient_collection.gd
 godot --headless --path biofactory --script res://tests/test_membrane_menu.gd
 godot --headless --path biofactory --script res://tests/test_autonomy_progress.gd
+godot --headless --path biofactory --script res://tests/test_cell_information_ui.gd
 godot --headless --path biofactory --fixed-fps 60 --quit-after 600
 ```
 
-Le deuxième lancement doit annoncer `BIOFACTORY_TESTS: 48 checks, 0 failures`
+Le deuxième lancement doit annoncer `BIOFACTORY_TESTS: 50 checks, 0 failures`
 et terminer avec un code de sortie nul, sans `SCRIPT ERROR` ni `ERROR`.
 Il vérifie notamment la consommation réelle, la conservation des recettes,
 la récupération après une pénurie, les inventaires locaux, les coûts et
@@ -130,6 +137,11 @@ La suite de progression doit annoncer
 démarrage à 60 pas par seconde, avec une puis deux usines et les stocks de départ
 réels, jusqu'à l'autonomie sans aucune récolte de secours. Elle contrôle aussi
 l'explication des réserves insuffisantes.
+
+La suite d'interface doit annoncer
+`BIOFACTORY_CELL_UI_TESTS: 18 checks, 0 failures`. Elle vérifie les deux fiches
+de survol, l'ordre ATP/O₂/nutriments, l'épinglage et sa fermeture, le panneau
+permanent des missions et l'absence des anciens contrôleurs de construction.
 
 Les interactions de survol, les menus contextuels et la stabilisation après
 une action de spécialisation ont aussi été vérifiés dans Godot avec affichage

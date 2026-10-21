@@ -3,6 +3,7 @@ extends Node
 
 @export var boundary: Node2D
 @export var info_panel: Control
+@export var cell_info_panel: Control
 @export var growth_controller: Node
 @export var construction_palette: Control
 @export var hover_distance_pixels: float = 14.0
@@ -38,6 +39,11 @@ func _process(_delta: float) -> void:
 func _unhandled_input(event: InputEvent) -> void:
     if not event is InputEventMouseButton or not event.pressed:
         return
+    if event.button_index == MOUSE_BUTTON_LEFT:
+        if _is_mouse_in_empty_cytoplasm():
+            cell_info_panel.toggle_pinned_cell(cell)
+            get_viewport().set_input_as_handled()
+        return
     if event.button_index != MOUSE_BUTTON_RIGHT:
         return
     if growth_controller != null and growth_controller.has_active_selection():
@@ -60,14 +66,19 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func update_hover() -> void:
-    if boundary == null or info_panel == null or cell.physiology == null:
+    if boundary == null or info_panel == null or cell_info_panel == null or cell.physiology == null:
         return
     var control: Control = get_viewport().gui_get_hovered_control()
     if control != null and control.mouse_filter != Control.MOUSE_FILTER_IGNORE:
         clear_hover()
         return
     var mouse_local: Vector2 = boundary.get_local_mouse_position()
+    var inside_cell: bool = boundary.contains_local_point(mouse_local)
     var section = boundary.get_section_at_local_position(mouse_local, hover_distance_pixels)
+    if inside_cell or section != null:
+        cell_info_panel.show_hovered_cell(cell)
+    else:
+        cell_info_panel.leave_cell(cell)
     if section != null:
         hovered_section = section
         hovered_section_id = section.section_id
@@ -93,6 +104,20 @@ func clear_hover() -> void:
     boundary.clear_selected_section()
     if info_panel != null:
         info_panel.hide()
+    if cell_info_panel != null:
+        cell_info_panel.leave_cell(cell)
+
+
+func _is_mouse_in_empty_cytoplasm() -> bool:
+    var mouse_local: Vector2 = boundary.get_local_mouse_position()
+    if not boundary.contains_local_point(mouse_local):
+        return false
+    if boundary.get_section_at_local_position(mouse_local, hover_distance_pixels) != null:
+        return false
+    for building in cell.buildings:
+        if is_instance_valid(building) and building.contains_local_point(building.get_local_mouse_position()):
+            return false
+    return true
 
 
 func _replacement_type() -> String:

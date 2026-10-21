@@ -102,14 +102,14 @@ func refresh_contents() -> void:
     else:
         title_label.text = target_cell.display_name + " · " + physiology.get_status_name()
         lines.append("Surface : %.2f m²" % target_cell.get_area_m2())
+        lines.append("ATP : %.1f · Production : %.2f/s" % [inventory.get_amount("atp"), physiology.atp_production_per_second])
         lines.append("O₂ : %.1f · Entrée : %.2f/s" % [inventory.get_amount("oxygen"), physiology.oxygen_intake_per_second])
         lines.append("Nutriments : %.1f · Entrée : %.2f/s" % [inventory.get_amount("nutrient"), physiology.nutrient_intake_per_second])
-        lines.append("ATP : %.1f · Production : %.2f/s" % [inventory.get_amount("atp"), physiology.atp_production_per_second])
         lines.append("Entretien total : %.2f ATP/s" % physiology.atp_demand_per_second)
         lines.append("Métabolisme : %.0f %%" % (physiology.metabolism * 100.0))
-    lines.append("")
-    lines.append("Diagnostic de la cellule")
-    lines.append("\n".join(physiology.get_alerts()))
+        lines.append("")
+        lines.append("Diagnostic de la cellule")
+        lines.append("\n".join(physiology.get_alerts()))
     body_label.text = "\n".join(lines)
     panel.reset_size()
 
