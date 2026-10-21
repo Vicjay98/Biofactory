@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://bcyxoe0axr3f2" path="res://scripts/ui/building_palette.gd" id="1_4hshc"]
 
 [node name="BuildingPalette" type="Control" unique_id=1901793526]
+mouse_filter = 2
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

@@ -32,6 +32,11 @@ var maintenance_atp_per_meter_per_second: float = 0.0
 # Peut servir d'interface entre deux cellules.
 @export var allowed_shared: bool = true
 
+@export_category("Oxygen Exchange")
+## Passive intake per meter for a unit external/internal concentration difference.
+@export_range(0.0, 10.0, 0.001)
+var oxygen_permeability_per_meter_per_second: float = 0.005
+
 
 @export_category("Visual")
 

@@ -6,6 +6,16 @@ const ResourceInventoryScript = preload(
 	"res://scripts/resources/resource_inventory.gd"
 )
 
+const CellPhysiologyScript = preload("res://scripts/organism/cell_physiology.gd")
+
+@export var physiology_profile: CellPhysiologyProfile = preload(
+    "res://data/spatial/starter_physiology.tres"
+)
+@export var simulation_enabled: bool = true
+
+var physiology
+var oxygen_conductance: float = 0.0
+
 
 @export var cell_id: String = "starter_cell"
 
@@ -27,6 +37,8 @@ var membrane_maintenance_atp_per_second: float = 0.0
 
 
 func _ready() -> void:
+
+    add_to_group("bio_cell")
 
     inventory = ResourceInventoryScript.new()
 
@@ -62,6 +74,20 @@ func _ready() -> void:
         return
 
     cell_manager.register_cell(self)
+
+    physiology = CellPhysiologyScript.new()
+    physiology.configure(self, physiology_profile)
+
+
+func _physics_process(delta: float) -> void:
+    if simulation_enabled and physiology != null:
+        physiology.advance(delta)
+
+
+func get_area_m2() -> float:
+    if boundary == null:
+        return 0.0
+    return boundary.get_area_m2()
 
 
 func setup_starting_resources() -> void:
@@ -123,6 +149,7 @@ func _exit_tree() -> void:
 
 func recalculate_membrane_maintenance() -> void:
     membrane_maintenance_atp_per_second = 0.0
+    oxygen_conductance = 0.0
 
     if boundary == null:
         return
@@ -143,6 +170,10 @@ func recalculate_membrane_maintenance() -> void:
             section_length
             * membrane_data.maintenance_atp_per_meter_per_second
         )
+        if section.is_external:
+            oxygen_conductance += (
+                section_length * membrane_data.oxygen_permeability_per_meter_per_second
+            )
 
 
 func get_membrane_maintenance_atp_per_second() -> float:

@@ -14,7 +14,7 @@ const OrganicBuildingScene = preload(
 @export var owning_cell: Node2D
 @export var building_data: BuildingData
 
-@export var construction_active: bool = true
+@export var construction_active: bool = false
 
 
 var preview_position: Vector2 = Vector2.ZERO
@@ -207,12 +207,10 @@ func construct_building() -> void:
 
     var building = OrganicBuildingScene.instantiate()
 
-    owning_cell.add_child(
-        building
-    )
-
     building.data = building_data
     building.owning_cell = owning_cell
+
+    owning_cell.add_child(building)
 
     var target_global_position: Vector2 = (
         to_global(

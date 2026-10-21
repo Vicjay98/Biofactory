@@ -50,10 +50,10 @@ construction_manager = NodePath("../ConstructionManager")
 script = ExtResource("5_udsm6")
 cell_manager = NodePath("../CellManager")
 starting_resources = Dictionary[String, float]({
-"atp": 0.0,
+"atp": 3.0,
 "lipid": 50.0,
 "nutrient": 100.0,
-"oxygen": 10.0,
+"oxygen": 2.0,
 "phosphorus": 10.0,
 "waste": 0.0
 })
@@ -68,11 +68,12 @@ script = ExtResource("8_t6x3e")
 boundary = NodePath("../Boundary")
 owning_cell = NodePath("..")
 
-[node name="MembraneHoverController" type="Node" parent="organism/StarterCell" unique_id=1711705681 node_paths=PackedStringArray("boundary", "info_panel", "growth_controller")]
+[node name="MembraneHoverController" type="Node" parent="organism/StarterCell" unique_id=1711705681 node_paths=PackedStringArray("boundary", "info_panel", "growth_controller", "construction_palette")]
 script = ExtResource("9_ts5eu")
 boundary = NodePath("../Boundary")
-info_panel = NodePath("../../../MembraneInfoPanel")
+info_panel = NodePath("../../../HUD/MembraneInfoPanel")
 growth_controller = NodePath("../GrowthController")
+construction_palette = NodePath("../../../HUD/BuildingPalette")
 
 [node name="OrganicBuilding" parent="organism/StarterCell" unique_id=1517807842 node_paths=PackedStringArray("owning_cell") instance=ExtResource("10_mycvl")]
 owning_cell = NodePath("..")
@@ -101,14 +102,18 @@ script = ExtResource("2_tiktx")
 visible = false
 script = ExtResource("8_yk1kl")
 
-[node name="ResourceDisplay" parent="." unique_id=296215441 instance=ExtResource("8_udsm6")]
+[node name="HUD" type="CanvasLayer" parent="."]
 
-[node name="MembraneInfoPanel" parent="." unique_id=105084844 instance=ExtResource("17_mycvl")]
-
-[node name="BuildingPalette" parent="." unique_id=1901793526 node_paths=PackedStringArray("construction_controller") instance=ExtResource("21_eewbs")]
+[node name="ResourceDisplay" parent="HUD" unique_id=296215441 instance=ExtResource("8_udsm6")]
 offset_left = 20.0
-offset_top = 260.0
+offset_top = 20.0
+
+[node name="MembraneInfoPanel" parent="HUD" unique_id=105084844 instance=ExtResource("17_mycvl")]
+
+[node name="BuildingPalette" parent="HUD" unique_id=1901793526 node_paths=PackedStringArray("construction_controller") instance=ExtResource("21_eewbs")]
+offset_left = 20.0
+offset_top = 390.0
 offset_right = 20.0
-offset_bottom = 260.0
-construction_controller = NodePath("../organism/StarterCell/OrganicConstructionController")
+offset_bottom = 390.0
+construction_controller = NodePath("../../organism/StarterCell/OrganicConstructionController")
 building_catalog = ExtResource("22_df3dr")

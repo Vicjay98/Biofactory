@@ -13,6 +13,7 @@ build_cost_per_meter = Dictionary[String, float]({
 "phosphorus": 0.2
 })
 maintenance_atp_per_meter_per_second = 0.04
+oxygen_permeability_per_meter_per_second = 0.12
 allowed_shared = false
 display_color = Color(0.35549918, 0.8912949, 0.7620049, 1)
 display_width = 6.0

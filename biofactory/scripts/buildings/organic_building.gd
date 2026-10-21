@@ -6,6 +6,10 @@ const SpatialConfigData = preload(
     "res://data/spatial/spatial_config.tres"
 )
 
+const RecipeProcessorScript = preload("res://scripts/recipes/recipe_processor.gd")
+
+var recipe_processor
+
 
 @export var data: BuildingData
 @export var owning_cell: Node2D
@@ -23,9 +27,42 @@ var placement_valid: bool = true
 func _ready() -> void:
     add_to_group("organic_building")
 
+    if owning_cell != null:
+        owning_cell.register_building(self)
+
     last_valid_position = position
 
     queue_redraw()
+
+
+func _exit_tree() -> void:
+    if is_instance_valid(owning_cell):
+        owning_cell.unregister_building(self)
+
+
+## Called by the owning cell so exchange, production and upkeep have one order.
+func simulate(delta: float) -> float:
+    if data == null or owning_cell == null or owning_cell.inventory == null:
+        return 0.0
+    if data.supported_recipes.is_empty():
+        return 0.0
+    if recipe_processor == null:
+        var recipe = RecipeDatabase.get_recipe(data.supported_recipes[0])
+        if recipe == null:
+            return 0.0
+        recipe_processor = RecipeProcessorScript.new()
+        recipe_processor.configure(recipe, owning_cell.inventory)
+    problems.clear()
+    if not recipe_processor.cycle_running:
+        for resource_id in recipe_processor.recipe.inputs:
+            var required: float = recipe_processor.recipe.inputs[resource_id]
+            if not owning_cell.inventory.has_amount(resource_id, required):
+                problems.append("Manque de " + ResourceDatabase.get_resource(resource_id).display_name)
+    is_functional = problems.is_empty()
+    var atp_before: float = owning_cell.inventory.get_amount("atp")
+    recipe_processor.process(delta)
+    queue_redraw()
+    return maxf(owning_cell.inventory.get_amount("atp") - atp_before, 0.0)
 
 
 func _input(event: InputEvent) -> void:
@@ -244,6 +281,9 @@ func _draw() -> void:
         0.8,
         1.0
     )
+
+    if not is_functional:
+        fill_color = Color(0.75, 0.4, 0.18, 0.75)
 
     if dragging and not placement_valid:
         fill_color = Color(

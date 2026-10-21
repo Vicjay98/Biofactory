@@ -5,8 +5,8 @@
 [resource]
 script = ExtResource("1_i7mng")
 id = "atp_factory"
-display_name = "ATP Factory"
-description = "Produit de l'ATP à partir de nutriments."
+display_name = "Usine ATP"
+description = "Transforme des nutriments et de l'oxygène en ATP, en produisant des déchets."
 size = Vector2i(2, 2)
 build_cost = Dictionary[String, float]({
 "nutrient": 50.0

@@ -80,6 +80,9 @@ func remove_resource(
     if not has_amount(resource_id, amount):
         return false
 
+    if amount == 0.0:
+        return true
+
     amounts[resource_id] -= amount
 
     changed.emit()

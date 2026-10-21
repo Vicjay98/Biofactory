@@ -1,40 +1,46 @@
 [gd_scene format=3 uid="uid://dfq5b4x0fcqpd"]
 
-[ext_resource type="Script" uid="uid://ec8n1mo4p2vh" path="res://scripts/ui/membrane_info_panel.gd" id="1_ail6y"]
+[ext_resource type="Script" uid="uid://ec8n1mo4p2vh" path="res://scripts/ui/membrane_info_panel.gd" id="1_panel"]
 
-[node name="MembraneInfoPanel" type="Control" unique_id=105084844]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("1_ail6y")
+[sub_resource type="StyleBoxFlat" id="Style_panel"]
+bg_color = Color(0.035, 0.07, 0.085, 0.97)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.25, 0.52, 0.52, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_left = 10
+corner_radius_bottom_right = 10
+content_margin_left = 16.0
+content_margin_top = 12.0
+content_margin_right = 16.0
+content_margin_bottom = 12.0
 
-[node name="Panel" type="PanelContainer" parent="." unique_id=1685820890]
+[node name="MembraneInfoPanel" type="Control"]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+mouse_filter = 2
+script = ExtResource("1_panel")
 
-[node name="VBox" type="VBoxContainer" parent="Panel" unique_id=1419540311]
-layout_mode = 2
+[node name="Panel" type="PanelContainer" parent="."]
+layout_mode = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("Style_panel")
 
-[node name="Title" type="Label" parent="Panel/VBox" unique_id=1151413949]
+[node name="VBox" type="VBoxContainer" parent="Panel"]
 layout_mode = 2
-text = "MEMBRANE"
+mouse_filter = 2
+theme_override_constants/separation = 8
 
-[node name="TypeLabel" type="Label" parent="Panel/VBox" unique_id=1431890431]
+[node name="Title" type="Label" parent="Panel/VBox"]
 layout_mode = 2
-text = "Type :"
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.5, 0.95, 0.85, 1)
+theme_override_font_sizes/font_size = 19
 
-[node name="DescriptionLabel" type="Label" parent="Panel/VBox" unique_id=272617820]
+[node name="Body" type="Label" parent="Panel/VBox"]
+custom_minimum_size = Vector2(330, 0)
 layout_mode = 2
-text = "Description"
-
-[node name="LengthLabel" type="Label" parent="Panel/VBox" unique_id=478261519]
-layout_mode = 2
-text = "Longueur :"
-
-[node name="MaintenanceLabel" type="Label" parent="Panel/VBox" unique_id=650290759]
-layout_mode = 2
-text = "Entretien :"
+mouse_filter = 2
+autowrap_mode = 2
