@@ -139,7 +139,7 @@ réels, jusqu'à l'autonomie sans aucune récolte de secours. Elle contrôle aus
 l'explication des réserves insuffisantes.
 
 La suite d'interface doit annoncer
-`BIOFACTORY_CELL_UI_TESTS: 18 checks, 0 failures`. Elle vérifie les deux fiches
+`BIOFACTORY_CELL_UI_TESTS: 19 checks, 0 failures`. Elle vérifie les deux fiches
 de survol, l'ordre ATP/O₂/nutriments, l'épinglage et sa fermeture, le panneau
 permanent des missions et l'absence des anciens contrôleurs de construction.
 

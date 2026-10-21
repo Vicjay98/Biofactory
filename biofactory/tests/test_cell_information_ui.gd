@@ -34,8 +34,9 @@ func run_tests() -> void:
     moving.show_cell(cell)
     var moving_lines: PackedStringArray = moving.body_label.text.split("\n")
     expect(fixed_lines[0].begins_with("ATP") and fixed_lines[1].begins_with("O₂") and fixed_lines[2].begins_with("Nutriments"), "The fixed panel orders ATP, oxygen and nutrients consistently")
-    expect(moving_lines[1].begins_with("ATP") and moving_lines[2].begins_with("O₂") and moving_lines[3].begins_with("Nutriments"), "The moving cytoplasm panel uses the same resource order")
-    expect("Diagnostic de la cellule" in moving.body_label.text, "Cytoplasm hover retains the cell diagnostic")
+    expect(moving_lines[0].begins_with("ATP") and moving_lines[1].begins_with("O₂") and moving_lines[2].begins_with("Nutriments"), "The moving cytoplasm panel uses the same resource order")
+    expect(moving_lines[3].begins_with("Surface") and moving_lines[4].begins_with("Entretien"), "The moving cytoplasm panel matches the complete fixed information order")
+    expect("Diagnostic" in moving.body_label.text, "Cytoplasm hover retains the cell diagnostic")
 
     fixed.toggle_pinned_cell(cell)
     expect(fixed.visible and fixed.pinned and fixed.close_button.visible, "A cytoplasm click pins the panel and exposes its close button")
