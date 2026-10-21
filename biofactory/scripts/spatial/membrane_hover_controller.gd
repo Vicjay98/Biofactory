@@ -102,7 +102,7 @@ func _replacement_type() -> String:
 func _replacement_cost() -> Dictionary[String, float]:
     var cost: Dictionary[String, float] = {}
     var data = MembraneTypeDatabase.get_membrane_type(_replacement_type())
-    var length_m: float = boundary.get_section_length_m(action_section)
+    var length_m: float = boundary.get_logical_section_length_m(action_section)
     for resource_id in data.build_cost_per_meter:
         cost[resource_id] = data.build_cost_per_meter[resource_id] * length_m
     return cost

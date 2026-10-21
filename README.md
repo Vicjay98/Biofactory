@@ -29,6 +29,12 @@ avec **F5**. Godot 4.7.2 est la version utilisée pour les vérifications cloud.
 La caméra se déplace avec ZQSD et zoome avec la molette. La construction
 contextuelle et ses listes ne mettent pas la simulation en pause.
 
+Le survol sélectionne une portion de membrane continue du même type et du
+même contact, jusqu'à ses vraies jonctions. Les points d'agrandissement ne
+créent pas de nouvelles sections. Les anciens fragments techniques sont
+sélectionnés ensemble, y compris à la fermeture du contour ; la longueur
+affichée et le coût de spécialisation portent sur cette portion complète.
+
 ## Fonctionnement de cette première version
 
 - Chaque usine ATP consomme 2 nutriments et 1 O₂ pour produire 5 ATP et 1 déchet
@@ -60,6 +66,7 @@ Depuis la racine du dépôt, avec Godot 4.7 dans le PATH :
 ```bash
 godot --headless --path biofactory --import
 godot --headless --path biofactory --script res://tests/test_physiology.gd
+godot --headless --path biofactory --script res://tests/test_membrane_selection.gd
 godot --headless --path biofactory --fixed-fps 60 --quit-after 600
 ```
 
@@ -68,6 +75,12 @@ et terminer avec un code de sortie nul, sans `SCRIPT ERROR` ni `ERROR`.
 Il vérifie notamment la consommation réelle, la conservation des recettes,
 la récupération après une pénurie, les inventaires locaux, les coûts et
 conditions des actions, l'entretien après croissance et les diagnostics.
+
+La suite des membranes doit annoncer
+`BIOFACTORY_MEMBRANE_TESTS: 51 checks, 0 failures`. Elle couvre les agrandissements
+confirmés ou annulés, les portions traversant la fermeture du contour, les
+vraies jonctions, les types et cellules voisines différents, le surlignage et
+la cohérence des longueurs et des coûts.
 
 Les interactions de survol, les menus contextuels et la stabilisation après
 une action de spécialisation ont aussi été vérifiés dans Godot avec affichage

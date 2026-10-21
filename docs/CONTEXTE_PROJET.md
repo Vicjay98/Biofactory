@@ -34,6 +34,14 @@ les débits et de choisir comment introduire la collecte de nutriments. La
 géométrie multicellulaire, les pompes, les dégâts et l'arbre technologique
 complet restent des étapes ultérieures.
 
+Un premier retour de jeu a corrigé le survol après agrandissement : les
+ancrages A/B ne découpent plus la membrane. Les fragments techniques contigus
+de même type et de même contact sont traités comme une portion complète pour
+le surlignage, la fiche et la spécialisation. Le regroupement respecte les
+jonctions identifiées, les changements de type et les contacts avec d'autres
+cellules, et traverse correctement la fermeture du contour. Les calculs
+physiques continuent à compter chaque fragment une seule fois.
+
 ## Direction du jeu
 
 Biofactory est un jeu de construction et d'automatisation biologique en vue du

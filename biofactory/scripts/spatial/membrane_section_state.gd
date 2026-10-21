@@ -21,6 +21,11 @@ var is_external: bool = true
 # Préparation du futur système multicellulaire.
 var adjacent_cell_ids: Array[String] = []
 
+# Actual topology junctions, independent of sampling or growth handles.
+# Empty identifiers mean that this endpoint is only a technical subdivision.
+var start_junction_id: String = ""
+var end_junction_id: String = ""
+
 
 func contains_t(value: float) -> bool:
 

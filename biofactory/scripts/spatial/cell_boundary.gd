@@ -38,6 +38,7 @@ var membrane_sections: Array = []
 var next_section_id: int = 0
 
 var selected_section_id: String = ""
+var _selected_section_ids := PackedStringArray()
 
 
 func _ready() -> void:
@@ -313,6 +314,10 @@ func split_section_at_t(
         section.adjacent_cell_ids.duplicate()
     )
 
+    # A technical split preserves real junctions at the original endpoints.
+    new_section.end_junction_id = section.end_junction_id
+    section.end_junction_id = ""
+
     section.end_t = split_t
 
     var section_index: int = (
@@ -325,6 +330,8 @@ func split_section_at_t(
         section_index + 1,
         new_section
     )
+
+    set_selected_section(selected_section_id)
 
     membrane_topology_changed.emit()
 
@@ -343,9 +350,13 @@ func set_section_membrane_type(
         if section.section_id != section_id:
             continue
 
-        section.membrane_type_id = (
-            new_type_id
-        )
+        # Freeze the old group before recoloring: do not spread into an
+        # adjacent membrane which already has the replacement type.
+        var members: Array = get_contiguous_membrane_sections(section)
+        for member in members:
+            member.membrane_type_id = new_type_id
+
+        set_selected_section(selected_section_id)
 
         membrane_topology_changed.emit()
 
@@ -354,6 +365,75 @@ func set_section_membrane_type(
         return true
 
     return false
+
+
+## Interaction groups keep geometric subdivisions intact for physics/economy.
+## Traversal is circular, so t=0/1 does not create an artificial junction.
+func get_contiguous_membrane_sections(section) -> Array:
+    var index: int = membrane_sections.find(section)
+    if index < 0:
+        return []
+    var members: Array = [section]
+    var first_index: int = index
+    var last_index: int = index
+    while members.size() < membrane_sections.size():
+        var previous_index: int = posmod(first_index - 1, membrane_sections.size())
+        var previous = membrane_sections[previous_index]
+        if not _sections_can_join(previous, members[0]):
+            break
+        members.push_front(previous)
+        first_index = previous_index
+    while members.size() < membrane_sections.size():
+        var next_index: int = posmod(last_index + 1, membrane_sections.size())
+        var following = membrane_sections[next_index]
+        if not _sections_can_join(members[-1], following):
+            break
+        members.append(following)
+        last_index = next_index
+    return members
+
+
+func _sections_can_join(left, right) -> bool:
+    var continuous: bool = is_equal_approx(left.end_t, right.start_t)
+    if is_equal_approx(left.end_t, 1.0) and is_zero_approx(right.start_t):
+        continuous = true
+    if not continuous or left.membrane_type_id != right.membrane_type_id:
+        return false
+    if left.is_external != right.is_external:
+        return false
+    if not left.end_junction_id.is_empty() or not right.start_junction_id.is_empty():
+        return false
+    # Neighbor identity is a set: order must not split the same contact.
+    for neighbor in left.adjacent_cell_ids:
+        if neighbor not in right.adjacent_cell_ids:
+            return false
+    for neighbor in right.adjacent_cell_ids:
+        if neighbor not in left.adjacent_cell_ids:
+            return false
+    return true
+
+
+func get_logical_membrane_section(section):
+    var members: Array = get_contiguous_membrane_sections(section)
+    if members.is_empty():
+        return null
+    # Stable representative while the cursor moves across technical pieces.
+    var representative = members[0]
+    for member in members:
+        if member.start_t < representative.start_t:
+            representative = member
+    return representative
+
+
+func get_logical_section_length_m(section) -> float:
+    var total: float = 0.0
+    for member in get_contiguous_membrane_sections(section):
+        total += get_section_length_m(member)
+    return total
+
+
+func is_section_selected(section) -> bool:
+    return section != null and _selected_section_ids.has(section.section_id)
 
 
 func get_membrane_color(
@@ -448,11 +528,7 @@ func _draw() -> void:
                     membrane_data.display_width
                 )
 
-        if (
-            section != null
-            and section.section_id
-            == selected_section_id
-        ):
+        if is_section_selected(section):
 
             membrane_color = (
                 membrane_color.lightened(
@@ -504,6 +580,12 @@ func set_selected_section(
 ) -> void:
 
     selected_section_id = section_id
+    _selected_section_ids.clear()
+    for section in membrane_sections:
+        if section.section_id == section_id:
+            for member in get_contiguous_membrane_sections(section):
+                _selected_section_ids.append(member.section_id)
+            break
 
     queue_redraw()
 
@@ -511,6 +593,7 @@ func set_selected_section(
 func clear_selected_section() -> void:
 
     selected_section_id = ""
+    _selected_section_ids.clear()
 
     queue_redraw()
 
@@ -589,7 +672,7 @@ func get_section_at_local_position(
             edge_index
         )
 
-    return nearest_section
+    return get_logical_membrane_section(nearest_section)
 
 
 func get_distance_to_segment(

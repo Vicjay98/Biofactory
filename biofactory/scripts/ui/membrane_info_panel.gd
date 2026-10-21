@@ -83,7 +83,7 @@ func refresh_contents() -> void:
             lines.append("⚠ " + problem)
     elif target_section != null:
         var data = MembraneTypeDatabase.get_membrane_type(target_section.membrane_type_id)
-        var length_m: float = target_cell.boundary.get_section_length_m(target_section)
+        var length_m: float = target_cell.boundary.get_logical_section_length_m(target_section)
         title_label.text = data.display_name
         lines.append(data.description)
         lines.append("Longueur : %.2f m" % length_m)

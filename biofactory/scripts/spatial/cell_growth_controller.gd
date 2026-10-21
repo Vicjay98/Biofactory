@@ -132,10 +132,6 @@ func select_anchor_a() -> void:
 
     anchor_a_index = index
 
-    boundary.ensure_section_boundary_at_outline_index(
-        anchor_a_index
-    )
-
     queue_redraw()
 
 
@@ -159,10 +155,6 @@ func select_anchor_b() -> void:
         return
 
     anchor_b_index = index
-
-    boundary.ensure_section_boundary_at_outline_index(
-        anchor_b_index
-    )
 
     queue_redraw()
 
