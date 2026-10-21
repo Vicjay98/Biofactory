@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="BuildingCatalog" format=3 uid="uid://cvwbe8ftk5ry2"]
+
+[ext_resource type="Script" uid="uid://bo6dacsod7wqo" path="res://scripts/buildings/building_catalog.gd" id="1_14idt"]
+[ext_resource type="Resource" uid="uid://djryjatdihxg0" path="res://data/buildings/atp_factory.tres" id="1_o52ks"]
+[ext_resource type="Resource" uid="uid://s6sypxf05c75" path="res://data/buildings/atp_storage.tres" id="2_vrfl0"]
+[ext_resource type="Resource" uid="uid://c7ab0qkaqng2e" path="res://data/buildings/pipe.tres" id="3_t110w"]
+
+[resource]
+script = ExtResource("1_14idt")
+buildings = Array[Resource]([ExtResource("1_o52ks"), ExtResource("2_vrfl0"), ExtResource("3_t110w")])
+metadata/_custom_type_script = "uid://bo6dacsod7wqo"

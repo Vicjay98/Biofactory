@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://r14ewmnsw0d1"]
+
+[ext_resource type="Script" uid="uid://cegu22u8o112i" path="res://scripts/buildings/organic_building.gd" id="1_chel8"]
+[ext_resource type="Resource" uid="uid://djryjatdihxg0" path="res://data/buildings/atp_factory.tres" id="2_puqdo"]
+
+[node name="OrganicBuilding" type="Node2D" unique_id=1517807842]
+script = ExtResource("1_chel8")
+data = ExtResource("2_puqdo")

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="ResourceData" format=3 uid="uid://b7d5og04uwxhn"]
+
+[ext_resource type="Script" uid="uid://bp84sv88cdeg5" path="res://scripts/resources/resource_data.gd" id="1_kcdjf"]
+
+[resource]
+script = ExtResource("1_kcdjf")
+id = "hydrogen"
+display_name = "Hydrogène"
+description = "Élément utilisé dans de nombreux processus et composés biologiques."
+metadata/_custom_type_script = "uid://bp84sv88cdeg5"

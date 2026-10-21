@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="CellShapeProfile" format=3 uid="uid://cm30su1oxefph"]
+
+[ext_resource type="Script" uid="uid://cootwoanxqltq" path="res://scripts/spatial/cell_shape_profile.gd" id="1_4f6jx"]
+
+[resource]
+script = ExtResource("1_4f6jx")
+metadata/_custom_type_script = "uid://cootwoanxqltq"

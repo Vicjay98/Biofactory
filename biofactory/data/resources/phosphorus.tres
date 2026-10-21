@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="ResourceData" format=3 uid="uid://d2tdk1daic5gn"]
+
+[ext_resource type="Script" uid="uid://bp84sv88cdeg5" path="res://scripts/resources/resource_data.gd" id="1_bybcn"]
+
+[resource]
+script = ExtResource("1_bybcn")
+id = "phosphorus"
+display_name = "Phosphore"
+description = "Élément important pour différentes molécules énergétiques et structures biologiques."
+metadata/_custom_type_script = "uid://bp84sv88cdeg5"

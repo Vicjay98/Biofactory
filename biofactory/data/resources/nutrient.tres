@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="ResourceData" format=3 uid="uid://dv08rmcjk00ey"]
+
+[ext_resource type="Script" uid="uid://bp84sv88cdeg5" path="res://scripts/resources/resource_data.gd" id="1_gfguf"]
+
+[resource]
+script = ExtResource("1_gfguf")
+id = "nutrient"
+display_name = "Nutriments"
+description = "Ressource nutritive utilisée comme matière première par différents processus métaboliques."
+metadata/_custom_type_script = "uid://bp84sv88cdeg5"

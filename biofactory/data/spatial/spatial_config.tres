@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="SpatialConfig" format=3 uid="uid://dn25fyh8726cy"]
+
+[ext_resource type="Script" uid="uid://djcasfloa4w3v" path="res://scripts/spatial/spatial_config.gd" id="1_qbllr"]
+
+[resource]
+script = ExtResource("1_qbllr")
+metadata/_custom_type_script = "uid://djcasfloa4w3v"

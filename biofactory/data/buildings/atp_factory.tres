@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="BuildingData" format=3 uid="uid://djryjatdihxg0"]
+
+[ext_resource type="Script" uid="uid://bhh02ekrkg8br" path="res://scripts/buildings/building_data.gd" id="1_i7mng"]
+
+[resource]
+script = ExtResource("1_i7mng")
+id = "atp_factory"
+display_name = "ATP Factory"
+description = "Produit de l'ATP à partir de nutriments."
+size = Vector2i(2, 2)
+build_cost = Dictionary[String, float]({
+"nutrient": 50.0
+})
+supported_recipes = Array[String](["basic_atp_production"])
+metadata/_custom_type_script = "uid://bhh02ekrkg8br"

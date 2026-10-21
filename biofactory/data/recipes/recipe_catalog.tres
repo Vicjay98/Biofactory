@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="RecipeCatalog" format=3 uid="uid://bwddvf2dhwg81"]
+
+[ext_resource type="Resource" uid="uid://d0dksqcdk2lyg" path="res://data/recipes/basic_atp_production.tres" id="1_75cwp"]
+[ext_resource type="Script" uid="uid://b3swsmcvpsagq" path="res://scripts/recipes/recipe_catalog.gd" id="1_xp88o"]
+
+[resource]
+script = ExtResource("1_xp88o")
+recipes = Array[Resource]([ExtResource("1_75cwp")])
+metadata/_custom_type_script = "uid://b3swsmcvpsagq"

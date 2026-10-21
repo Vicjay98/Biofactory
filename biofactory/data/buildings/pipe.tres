@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="BuildingData" format=3 uid="uid://c7ab0qkaqng2e"]
+
+[ext_resource type="Script" uid="uid://bhh02ekrkg8br" path="res://scripts/buildings/building_data.gd" id="1_gfqng"]
+
+[resource]
+script = ExtResource("1_gfqng")
+description = "Permet de transporter des ressources entre différentes structures."
+metadata/_custom_type_script = "uid://bhh02ekrkg8br"

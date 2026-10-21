@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://dbstmfg1vj6jw"]
+
+[ext_resource type="Script" uid="uid://ttj3gij3g5" path="res://scripts/ui/resource_display.gd" id="1_bjohn"]
+
+[node name="ResourceDisplay" type="Control" unique_id=296215441]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_bjohn")
+
+[node name="Panel" type="PanelContainer" parent="." unique_id=1405193149]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBox" type="VBoxContainer" parent="Panel" unique_id=407598740]
+layout_mode = 2

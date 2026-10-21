@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ResourceData" format=3 uid="uid://cejla1qduswdq"]
+
+[ext_resource type="Script" uid="uid://bp84sv88cdeg5" path="res://scripts/resources/resource_data.gd" id="1_d4b7y"]
+
+[resource]
+script = ExtResource("1_d4b7y")
+id = "atp"
+display_name = "ATP"
+description = "Ressource énergétique utilisée pour alimenter les processus biologiques de l'organisme."
+resource_type = 1
+metadata/_custom_type_script = "uid://bp84sv88cdeg5"

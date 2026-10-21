@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="MembraneTypeData" format=3 uid="uid://cu6g8u4rmmcym"]
+
+[ext_resource type="Script" uid="uid://byqhpp7vdjuhq" path="res://scripts/membranes/membrane_type_data.gd" id="1_ml3yd"]
+
+[resource]
+script = ExtResource("1_ml3yd")
+id = "oxygen_exchange_membrane"
+display_name = "Membrane d'échange d'oxygène"
+description = "Membrane spécialisée facilitant les échanges d'oxygène avec l'environnement."
+tags = Array[String](["exchange", "oxygen", "respiration"])
+build_cost_per_meter = Dictionary[String, float]({
+"lipid": 1.5,
+"phosphorus": 0.2
+})
+maintenance_atp_per_meter_per_second = 0.04
+allowed_shared = false
+display_color = Color(0.35549918, 0.8912949, 0.7620049, 1)
+display_width = 6.0
+metadata/_custom_type_script = "uid://byqhpp7vdjuhq"

@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="ResourceCatalog" format=3 uid="uid://ckrtp8dbjd7jx"]
+
+[ext_resource type="Script" uid="uid://bp84sv88cdeg5" path="res://scripts/resources/resource_data.gd" id="1_47xlp"]
+[ext_resource type="Resource" uid="uid://dv08rmcjk00ey" path="res://data/resources/nutrient.tres" id="2_5iy45"]
+[ext_resource type="Script" uid="uid://dc0y3ygb8bd1e" path="res://scripts/resources/resource_catalog.gd" id="2_g4gxm"]
+[ext_resource type="Resource" uid="uid://cejla1qduswdq" path="res://data/resources/atp.tres" id="3_lmc4d"]
+[ext_resource type="Resource" uid="uid://b7uuue508qliq" path="res://data/resources/oxygen.tres" id="4_08dni"]
+[ext_resource type="Resource" uid="uid://d0avp4fabf38t" path="res://data/resources/waste.tres" id="5_lmc4d"]
+[ext_resource type="Resource" uid="uid://dovlm6jx2odc8" path="res://data/resources/carbon.tres" id="6_vc11r"]
+[ext_resource type="Resource" uid="uid://b7d5og04uwxhn" path="res://data/resources/hydrogen.tres" id="7_7moal"]
+[ext_resource type="Resource" uid="uid://duotp1uob3jyq" path="res://data/resources/nitrogen.tres" id="8_8f4e2"]
+[ext_resource type="Resource" uid="uid://d2tdk1daic5gn" path="res://data/resources/phosphorus.tres" id="9_autvf"]
+[ext_resource type="Resource" uid="uid://dpqqn1fji6adp" path="res://data/resources/sulfur.tres" id="10_5m3rc"]
+[ext_resource type="Resource" uid="uid://vjcdvp0fu5cy" path="res://data/resources/lipid.tres" id="11_7moal"]
+
+[resource]
+script = ExtResource("2_g4gxm")
+resources = Array[ExtResource("1_47xlp")]([ExtResource("2_5iy45"), ExtResource("3_lmc4d"), ExtResource("4_08dni"), ExtResource("5_lmc4d"), ExtResource("6_vc11r"), ExtResource("7_7moal"), ExtResource("8_8f4e2"), ExtResource("9_autvf"), ExtResource("10_5m3rc"), ExtResource("11_7moal")])
+metadata/_custom_type_script = "uid://dc0y3ygb8bd1e"

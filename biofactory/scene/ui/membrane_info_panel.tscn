@@ -1,0 +1,40 @@
+[gd_scene format=3 uid="uid://dfq5b4x0fcqpd"]
+
+[ext_resource type="Script" uid="uid://ec8n1mo4p2vh" path="res://scripts/ui/membrane_info_panel.gd" id="1_ail6y"]
+
+[node name="MembraneInfoPanel" type="Control" unique_id=105084844]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ail6y")
+
+[node name="Panel" type="PanelContainer" parent="." unique_id=1685820890]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBox" type="VBoxContainer" parent="Panel" unique_id=1419540311]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Panel/VBox" unique_id=1151413949]
+layout_mode = 2
+text = "MEMBRANE"
+
+[node name="TypeLabel" type="Label" parent="Panel/VBox" unique_id=1431890431]
+layout_mode = 2
+text = "Type :"
+
+[node name="DescriptionLabel" type="Label" parent="Panel/VBox" unique_id=272617820]
+layout_mode = 2
+text = "Description"
+
+[node name="LengthLabel" type="Label" parent="Panel/VBox" unique_id=478261519]
+layout_mode = 2
+text = "Longueur :"
+
+[node name="MaintenanceLabel" type="Label" parent="Panel/VBox" unique_id=650290759]
+layout_mode = 2
+text = "Entretien :"

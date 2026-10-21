@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="MembraneTypeData" format=3 uid="uid://dneyqrbeeqsic"]
+
+[ext_resource type="Script" uid="uid://byqhpp7vdjuhq" path="res://scripts/membranes/membrane_type_data.gd" id="1_ufipt"]
+
+[resource]
+script = ExtResource("1_ufipt")
+id = "basic_membrane"
+display_name = "Membrane basique"
+description = "Membrane cellulaire primitive assurant la séparation entre l'intérieur de la cellule et son environnement."
+tags = Array[String](["basic", "structural"])
+build_cost_per_meter = Dictionary[String, float]({
+"lipid": 1.0
+})
+maintenance_atp_per_meter_per_second = 0.02
+metadata/_custom_type_script = "uid://byqhpp7vdjuhq"

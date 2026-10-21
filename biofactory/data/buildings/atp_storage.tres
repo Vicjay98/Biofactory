@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="BuildingData" format=3 uid="uid://s6sypxf05c75"]
+
+[ext_resource type="Script" uid="uid://bhh02ekrkg8br" path="res://scripts/buildings/building_data.gd" id="1_xfeui"]
+
+[resource]
+script = ExtResource("1_xfeui")
+id = "atp_storage"
+display_name = "ATP Storage"
+description = "Stocke temporairement de l'ATP."
+metadata/_custom_type_script = "uid://bhh02ekrkg8br"

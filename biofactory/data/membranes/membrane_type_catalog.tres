@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="MembraneTypeCatalog" format=3 uid="uid://b6guqm6eprhi2"]
+
+[ext_resource type="Resource" uid="uid://dneyqrbeeqsic" path="res://data/membranes/basic_membrane.tres" id="1_856w0"]
+[ext_resource type="Script" uid="uid://dkh4ni46cl45u" path="res://scripts/membranes/membrane_type_catalog.gd" id="1_d1cgd"]
+[ext_resource type="Resource" uid="uid://cu6g8u4rmmcym" path="res://data/membranes/oxygen_exchange_membrane.tres" id="2_mse5a"]
+
+[resource]
+script = ExtResource("1_d1cgd")
+membrane_types = Array[Resource]([ExtResource("1_856w0"), ExtResource("2_mse5a")])
+metadata/_custom_type_script = "uid://dkh4ni46cl45u"

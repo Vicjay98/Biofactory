@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://cc06eosoajpoc"]
+
+[ext_resource type="Script" uid="uid://bcyxoe0axr3f2" path="res://scripts/ui/building_palette.gd" id="1_4hshc"]
+
+[node name="BuildingPalette" type="Control" unique_id=1901793526]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_4hshc")
+
+[node name="Panel" type="PanelContainer" parent="." unique_id=542692550]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBox" type="VBoxContainer" parent="Panel" unique_id=93654732]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Panel/VBox" unique_id=1704415448]
+layout_mode = 2
+text = "CONSTRUCTION"
+
+[node name="FactoryButton" type="Button" parent="Panel/VBox" unique_id=1557333054]
+layout_mode = 2
+text = "Usine ATP"
+
+[node name="StorageButton" type="Button" parent="Panel/VBox" unique_id=179333627]
+layout_mode = 2
+text = "Stockage ATP"
+
+[node name="PipeButton" type="Button" parent="Panel/VBox" unique_id=1877027400]
+layout_mode = 2
+text = "Conduit"

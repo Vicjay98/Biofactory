@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ResourceData" format=3 uid="uid://d0avp4fabf38t"]
+
+[ext_resource type="Script" uid="uid://bp84sv88cdeg5" path="res://scripts/resources/resource_data.gd" id="1_uku0c"]
+
+[resource]
+script = ExtResource("1_uku0c")
+id = "waste"
+display_name = "Déchets"
+description = "Sous-produits générés par certains processus biologiques et devant être traités ou évacués."
+resource_type = 3
+metadata/_custom_type_script = "uid://bp84sv88cdeg5"

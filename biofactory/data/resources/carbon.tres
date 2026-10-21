@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="ResourceData" format=3 uid="uid://dovlm6jx2odc8"]
+
+[ext_resource type="Script" uid="uid://bp84sv88cdeg5" path="res://scripts/resources/resource_data.gd" id="1_4t3ct"]
+
+[resource]
+script = ExtResource("1_4t3ct")
+id = "carbon"
+display_name = "Carbone"
+description = "Élément utilisé dans de nombreuses structures et molécules biologiques."
+metadata/_custom_type_script = "uid://bp84sv88cdeg5"

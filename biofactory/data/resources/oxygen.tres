@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ResourceData" format=3 uid="uid://b7uuue508qliq"]
+
+[ext_resource type="Script" uid="uid://bp84sv88cdeg5" path="res://scripts/resources/resource_data.gd" id="1_ivwd3"]
+
+[resource]
+script = ExtResource("1_ivwd3")
+id = "oxygen"
+display_name = "Oxygène"
+description = "Ressource gazeuse utilisée par certains processus métaboliques."
+resource_type = 2
+metadata/_custom_type_script = "uid://bp84sv88cdeg5"

@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="RecipeData" format=3 uid="uid://d0dksqcdk2lyg"]
+
+[ext_resource type="Script" uid="uid://b7wlu2sqg8irs" path="res://scripts/recipes/recipe_data.gd" id="1_7bii6"]
+
+[resource]
+script = ExtResource("1_7bii6")
+id = "basic_atp_production"
+display_name = "Production basique d'ATP"
+description = "Processus métabolique simplifié transformant des nutriments et de l'oxygène en ATP tout en générant des déchets."
+duration = 2.0
+inputs = Dictionary[String, float]({
+"nutrient": 2.0,
+"oxygen": 1.0
+})
+outputs = Dictionary[String, float]({
+"atp": 5.0,
+"waste": 1.0
+})
+tags = Array[String](["metabolism", "energy"])
+metadata/_custom_type_script = "uid://b7wlu2sqg8irs"

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="ResourceData" format=3 uid="uid://dpqqn1fji6adp"]
+
+[ext_resource type="Script" uid="uid://bp84sv88cdeg5" path="res://scripts/resources/resource_data.gd" id="1_fj6nu"]
+
+[resource]
+script = ExtResource("1_fj6nu")
+id = "sulfur"
+display_name = "Soufre"
+description = "Élément utilisé dans certaines molécules et structures biologiques spécialisées."
+metadata/_custom_type_script = "uid://bp84sv88cdeg5"
