@@ -56,6 +56,17 @@ func get_state_name() -> String:
     return ["Stable", "Affaiblie", "Critique", "Dormance"][state]
 
 
+func has_low_nutrients() -> bool:
+    return cell.inventory.get_amount("nutrient") < profile.low_nutrient
+
+
+func get_status_name() -> String:
+    # ATP/O2 stability unlocks feeding, but must not hide a nutrient shortage.
+    if state == State.STABLE and has_low_nutrients():
+        return "Nutriments faibles"
+    return get_state_name()
+
+
 func refresh_state() -> void:
     var previous: State = state
     var atp: float = cell.inventory.get_amount("atp")
@@ -122,8 +133,7 @@ func advance(delta: float) -> void:
         stable_seconds = 0.0
     # The first milestone teaches ATP/O2 recovery. Nutrition must not lock
     # its own unlock behind that later requirement (e.g. with two factories).
-    var healthy_nutrients: bool = cell.inventory.get_amount("nutrient") >= profile.low_nutrient
-    if state == State.STABLE and healthy_nutrients and get_autonomy_blockers().is_empty():
+    if get_autonomy_wait_reason().is_empty():
         autonomous_seconds += delta
         if autonomous_seconds >= profile.autonomy_seconds:
             autonomous = true
@@ -202,10 +212,40 @@ func get_autonomy_blockers() -> PackedStringArray:
     return blockers
 
 
+func get_stability_wait_reason() -> String:
+    if state == State.STABLE:
+        return ""
+    var atp: float = cell.inventory.get_amount("atp")
+    if atp < profile.low_atp:
+        return "Réserve ATP : %.1f / %.1f." % [atp, profile.low_atp]
+    if get_oxygen_ratio() < profile.low_oxygen_ratio:
+        return "Réserve O₂ : %.1f / %.1f." % [cell.inventory.get_amount("oxygen"), get_oxygen_capacity() * profile.low_oxygen_ratio]
+    return "État de la cellule : " + get_state_name() + "."
+
+
+## Shared by the timer and the HUD so a stopped counter always has a reason.
+func get_autonomy_wait_reason() -> String:
+    if not stabilized:
+        return "Stabilisez d'abord l'ATP et l'O₂ de la cellule."
+    var stability_reason: String = get_stability_wait_reason()
+    if not stability_reason.is_empty():
+        return stability_reason
+    var blockers: PackedStringArray = get_autonomy_blockers()
+    if not blockers.is_empty():
+        return blockers[0]
+    if has_low_nutrients():
+        return "Reconstitution automatique des nutriments : %.1f / %.1f." % [cell.inventory.get_amount("nutrient"), profile.low_nutrient]
+    return ""
+
+
 func get_alerts() -> PackedStringArray:
     var alerts := PackedStringArray()
-    if cell.inventory.get_amount("nutrient") < profile.low_nutrient:
-        alerts.append("Nutriments faibles : absorbez-en en secours, puis automatisez leur collecte.")
+    var autonomy_blockers: PackedStringArray = get_autonomy_blockers() if stabilized else PackedStringArray()
+    if has_low_nutrients():
+        if stabilized and autonomy_blockers.is_empty():
+            alerts.append("Nutriments en reconstitution automatique : %.1f / %.1f. Le chrono attend une réserve suffisante." % [cell.inventory.get_amount("nutrient"), profile.low_nutrient])
+        else:
+            alerts.append("Nutriments faibles : améliorez la collecte ou utilisez une absorption de secours.")
     if get_oxygen_ratio() < profile.low_oxygen_ratio:
         alerts.append("O₂ faible : le métabolisme ralentit. Améliorez les échanges membranaires.")
     if cell.inventory.get_amount("atp") < profile.low_atp:
@@ -213,7 +253,7 @@ func get_alerts() -> PackedStringArray:
     if cell.get_buildings_by_id("atp_factory").is_empty():
         alerts.append("Aucune usine ATP : la cellule ne produit pas d'énergie.")
     if stabilized:
-        alerts.append_array(get_autonomy_blockers())
+        alerts.append_array(autonomy_blockers)
     if alerts.is_empty():
         alerts.append(
             "Les échanges peuvent soutenir la production sans secours manuel."

@@ -28,8 +28,11 @@ avec **F5**. Godot 4.7.2 est la version utilisée pour les vérifications cloud.
    les nutriments et laisse aussi passer l'O₂, avec un entretien ATP supérieur.
 6. Maintenir une **autonomie sans secours pendant 30 secondes**. Le système
    vérifie que les échanges peuvent alimenter les usines à plein régime et que
-   leur production ATP couvre l'entretien. Une absorption manuelle réussie
-   remet ce nouveau compteur à zéro. Un stock initial élevé ne suffit pas.
+   leur production ATP couvre l'entretien. La réserve de nutriments doit aussi
+   atteindre 6 : avec deux usines, elle peut se reconstituer lentement avant
+   que le compteur avance sans interruption. La raison de l'attente est affichée
+   à côté du chrono. Une absorption manuelle réussie remet ce nouveau compteur
+   à zéro ; elle n'est pas nécessaire pour le démarrer.
 7. Faire un clic droit dans le cytoplasme, puis choisir **Construction** pour
    ouvrir la liste près de la cellule. Choisir Usine ATP, puis placer avec le
    clic gauche ; clic droit pour annuler. Une structure nécessite la place et
@@ -37,6 +40,9 @@ avec **F5**. Godot 4.7.2 est la version utilisée pour les vérifications cloud.
 
 La caméra se déplace avec ZQSD et zoome avec la molette. La construction
 contextuelle et ses listes ne mettent pas la simulation en pause.
+Toutes les spécialisations restent visibles dans le menu de la membrane.
+Le type installé porte la mention **(équipé)** et ne peut pas être racheté.
+Les options verrouillées ou trop coûteuses restent affichées, mais désactivées.
 
 Le survol sélectionne une portion de membrane continue du même type et du
 même contact, jusqu'à ses vraies jonctions. Les points d'agrandissement ne
@@ -61,7 +67,10 @@ affichée et le coût de spécialisation portent sur cette portion complète.
   vitesse nominale : une usine désactivée ou un stock de secours ne masque pas un
   système de collecte ou une production d'énergie insuffisants.
 - Les états sont Stable, Affaiblie, Critique et Dormance. Ils n'entraînent pas
-  de destruction immédiate de la cellule.
+  de destruction immédiate de la cellule. La première stabilisation vérifie
+  l'ATP et l'O₂ pour débloquer l'alimentation ; si les nutriments sont bas,
+  l'interface affiche **Nutriments faibles** et signale la reconstitution
+  automatique lorsque les échanges suffisent.
 - Les valeurs de départ et les seuils sont réglables dans
   `biofactory/data/spatial/starter_physiology.tres` via l'Inspecteur de Godot.
 
@@ -88,6 +97,8 @@ godot --headless --path biofactory --import
 godot --headless --path biofactory --script res://tests/test_physiology.gd
 godot --headless --path biofactory --script res://tests/test_membrane_selection.gd
 godot --headless --path biofactory --script res://tests/test_nutrient_collection.gd
+godot --headless --path biofactory --script res://tests/test_membrane_menu.gd
+godot --headless --path biofactory --script res://tests/test_autonomy_progress.gd
 godot --headless --path biofactory --fixed-fps 60 --quit-after 600
 ```
 
@@ -110,6 +121,15 @@ la dormance et la récupération, les coûts et inventaires locaux, les délais
 indépendants, l'objectif sans secours et les besoins de plusieurs usines. Une
 deuxième usine construite tôt ne bloque pas le premier déblocage : l'objectif
 ATP/O₂ initial reste distinct de la vérification nutritionnelle d'autonomie.
+
+La suite du menu doit annoncer `BIOFACTORY_MENU_TESTS: 33 checks, 0 failures`.
+Elle vérifie le catalogue complet, le marqueur unique « (équipé) », les conditions
+de déblocage, les fonds insuffisants et l'absence de double facturation.
+La suite de progression doit annoncer
+`BIOFACTORY_AUTONOMY_PROGRESS_TESTS: 29 checks, 0 failures`. Elle rejoue le
+démarrage à 60 pas par seconde, avec une puis deux usines et les stocks de départ
+réels, jusqu'à l'autonomie sans aucune récolte de secours. Elle contrôle aussi
+l'explication des réserves insuffisantes.
 
 Les interactions de survol, les menus contextuels et la stabilisation après
 une action de spécialisation ont aussi été vérifiés dans Godot avec affichage

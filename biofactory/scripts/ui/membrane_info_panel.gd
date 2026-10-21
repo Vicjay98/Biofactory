@@ -100,7 +100,7 @@ func refresh_contents() -> void:
         lines.append("Nutriments entrants : %.2f/s" % intake)
         lines.append("Clic droit : collecte de secours ou spécialisation")
     else:
-        title_label.text = target_cell.display_name + " · " + physiology.get_state_name()
+        title_label.text = target_cell.display_name + " · " + physiology.get_status_name()
         lines.append("Surface : %.2f m²" % target_cell.get_area_m2())
         lines.append("O₂ : %.1f · Entrée : %.2f/s" % [inventory.get_amount("oxygen"), physiology.oxygen_intake_per_second])
         lines.append("Nutriments : %.1f · Entrée : %.2f/s" % [inventory.get_amount("nutrient"), physiology.nutrient_intake_per_second])

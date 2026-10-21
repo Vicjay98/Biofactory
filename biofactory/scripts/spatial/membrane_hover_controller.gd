@@ -20,6 +20,7 @@ func _ready() -> void:
     cell = boundary.get_parent()
     action_menu = PopupMenu.new()
     action_menu.name = "MembraneActions"
+    action_menu.add_theme_color_override("font_disabled_color", Color(0.65, 0.65, 0.65))
     action_menu.add_item("Absorber un peu d'O₂ (secours)", 0)
     action_menu.add_item("", 1)
     action_menu.id_pressed.connect(_on_action)
@@ -126,8 +127,6 @@ func _build_membrane_menu() -> void:
     var types: Array = MembraneTypeDatabase.get_all_membrane_types()
     for index in range(types.size()):
         var data = types[index]
-        if data.id == action_section.membrane_type_id:
-            continue
         var action_id: int = 1 if data.id == _replacement_type() else 10 + index
         _membrane_type_actions[action_id] = data.id
         action_menu.add_item(data.display_name, action_id)
@@ -155,6 +154,7 @@ func _update_menu() -> void:
     for action_id in _membrane_type_actions:
         var type_id: String = _membrane_type_actions[action_id]
         var data = MembraneTypeDatabase.get_membrane_type(type_id)
+        var equipped: bool = type_id == action_section.membrane_type_id
         var locked: bool = data.requires_stabilized_cell and not physiology.stabilized
         var costs := PackedStringArray()
         var available := PackedStringArray()
@@ -164,11 +164,11 @@ func _update_menu() -> void:
             costs.append("%.1f %s" % [cost[resource_id], resource_name])
             available.append("%.1f %s" % [cell.inventory.get_amount(resource_id), resource_name])
         var index: int = action_menu.get_item_index(action_id)
-        text = data.display_name + " · " + ", ".join(costs)
-        if locked:
+        text = data.display_name + " (équipé)" if equipped else data.display_name + " · " + ", ".join(costs)
+        if locked and not equipped:
             text += " · après stabilisation"
         action_menu.set_item_text(index, text)
-        action_menu.set_item_disabled(index, locked or not action_section.is_external or not data.allowed_external or not _can_pay(cost))
+        action_menu.set_item_disabled(index, equipped or locked or not action_section.is_external or not data.allowed_external or not _can_pay(cost))
         var upkeep: float = boundary.get_logical_section_length_m(action_section) * data.maintenance_atp_per_meter_per_second
         action_menu.set_item_tooltip(index, data.description + "\nDisponible : " + ", ".join(available) + "\nEntretien de cette membrane : %.2f ATP/s" % upkeep)
 

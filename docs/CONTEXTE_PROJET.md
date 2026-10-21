@@ -274,10 +274,19 @@ visuelles. Aucun fichier de logique de jeu n'a été modifié pour cette synthè
 
 ## Reprise et méthode de travail
 
-Repartir du squelette physiologique décidé au message 823. Réutiliser les
-inventaires et les recettes existants, puis intégrer la simulation dans les
-structures organiques. Rendre la cause des déficits lisible avant d'étendre
-la géométrie multicellulaire ou le réseau de transport complet.
+Les premières boucles physiologiques sont désormais jouables : stabilisation
+ATP/O₂ pendant 20 secondes, puis membrane d'alimentation et autonomie pendant
+30 secondes. Le menu conserve toutes les spécialisations et marque le type
+installé « (équipé) ». La validation d'autonomie exige aussi une réserve de
+nutriments d'au moins 6 ; une réserve basse est explicitement signalée dans
+l'état affiché et à côté du chrono. Avec des échanges suffisants, la cellule
+reconstitue sa réserve et lance le compteur automatiquement, sans récolte de
+secours obligatoire. Les deux objectifs restent distincts pour que la nutrition
+ne verrouille pas son propre déblocage.
+
+Poursuivre la boucle physiologique décidée au message 823 en réutilisant les
+inventaires et les recettes existants. Rendre la cause des déficits lisible
+avant d'étendre la géométrie multicellulaire ou le réseau de transport complet.
 
 L'utilisateur souhaite un vrai jeu abouti et attend des retours francs sur les
 idées. Il débute avec Godot et GitHub ; expliquer les changements et leurs tests
