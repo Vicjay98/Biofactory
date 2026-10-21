@@ -37,6 +37,13 @@ var maintenance_atp_per_meter_per_second: float = 0.0
 @export_range(0.0, 10.0, 0.001)
 var oxygen_permeability_per_meter_per_second: float = 0.005
 
+@export_category("Nutrient Exchange")
+@export_range(0.0, 10.0, 0.001)
+var nutrient_permeability_per_meter_per_second: float = 0.005
+
+@export_category("Progression")
+@export var requires_stabilized_cell: bool = false
+
 
 @export_category("Visual")
 

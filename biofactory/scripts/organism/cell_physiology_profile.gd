@@ -5,6 +5,9 @@ extends Resource
 @export_range(0.0, 10.0, 0.001) var basal_atp_per_m2_per_second: float = 0.04
 @export_range(0.01, 100.0, 0.1) var oxygen_capacity_per_m2: float = 2.0
 @export_range(0.0, 100.0, 0.1) var ambient_oxygen: float = 1.0
+@export_range(0.01, 100.0, 0.1) var nutrient_capacity_per_m2: float = 8.0
+@export_range(0.0, 100.0, 0.1) var ambient_nutrient: float = 1.0
+@export_range(0.0, 100.0, 0.1) var low_nutrient: float = 6.0
 @export_range(0.0, 1.0, 0.01) var critical_oxygen_ratio: float = 0.02
 @export_range(0.0, 1.0, 0.01) var low_oxygen_ratio: float = 0.15
 @export_range(0.0, 100.0, 0.1) var critical_atp: float = 2.0
@@ -13,4 +16,7 @@ extends Resource
 @export_range(0.1, 1.0, 0.05) var stressed_metabolism: float = 0.65
 @export_range(0.1, 60.0, 0.1) var manual_oxygen_amount: float = 2.0
 @export_range(0.1, 60.0, 0.1) var manual_oxygen_cooldown: float = 4.0
+@export_range(0.1, 60.0, 0.1) var manual_nutrient_amount: float = 4.0
+@export_range(0.1, 60.0, 0.1) var manual_nutrient_cooldown: float = 4.0
 @export_range(1.0, 120.0, 1.0) var stabilization_seconds: float = 20.0
+@export_range(1.0, 120.0, 1.0) var autonomy_seconds: float = 30.0

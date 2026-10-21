@@ -16,12 +16,21 @@ avec **F5**. Godot 4.7.2 est la version utilisée pour les vérifications cloud.
 3. Faire un clic droit sur le contour de la cellule :
    - **Absorber 2 O₂ (secours)** fournit une petite quantité d'oxygène dissous,
      avec quatre secondes de récupération entre deux actions ;
+   - **Absorber 4 nutriments (secours)** aide à relancer une cellule affamée,
+     avec son propre délai de quatre secondes ;
    - **Membrane d'échange d'oxygène** remplace la section ciblée en payant
      les lipides et le phosphore indiqués. Son apport d'O₂ est réel et automatique.
 4. Chercher à maintenir la cellule **stable pendant 20 secondes**. Le compteur
    repart à zéro si elle redevient affaiblie. Le premier succès reste mémorisé
    pendant la partie.
-5. Faire un clic droit dans le cytoplasme, puis choisir **Construction** pour
+5. Après la première stabilisation, faire un clic droit sur la membrane et
+   choisir **Membrane d'alimentation**. Cette spécialisation capte réellement
+   les nutriments et laisse aussi passer l'O₂, avec un entretien ATP supérieur.
+6. Maintenir une **autonomie sans secours pendant 30 secondes**. Le système
+   vérifie que les échanges peuvent alimenter les usines à plein régime et que
+   leur production ATP couvre l'entretien. Une absorption manuelle réussie
+   remet ce nouveau compteur à zéro. Un stock initial élevé ne suffit pas.
+7. Faire un clic droit dans le cytoplasme, puis choisir **Construction** pour
    ouvrir la liste près de la cellule. Choisir Usine ATP, puis placer avec le
    clic gauche ; clic droit pour annuler. Une structure nécessite la place et
    les ressources présentes dans cette cellule.
@@ -44,15 +53,26 @@ affichée et le coût de spécialisation portent sur cette portion complète.
 - L'entretien ATP dépend de la surface du cytoplasme et des sections membranaires.
 - L'O₂ entrant dépend de la longueur et de la perméabilité des sections
   extérieures, ainsi que de la différence de concentration avec l'environnement.
+- Les nutriments suivent le même principe. La membrane basique en laisse passer
+  très peu ; la membrane d'alimentation permet à la cellule initiale d'entretenir
+  son métabolisme. Ses échanges O₂ sont moins efficaces que ceux de la membrane
+  spécialisée O₂, et son entretien est plus coûteux.
+- L'autonomie tient compte des recettes de toutes les usines présentes, à leur
+  vitesse nominale : une usine désactivée ou un stock de secours ne masque pas un
+  système de collecte ou une production d'énergie insuffisants.
 - Les états sont Stable, Affaiblie, Critique et Dormance. Ils n'entraînent pas
   de destruction immédiate de la cellule.
 - Les valeurs de départ et les seuils sont réglables dans
   `biofactory/data/spatial/starter_physiology.tres` via l'Inspecteur de Godot.
 
-L'environnement est pour l'instant un réservoir uniforme d'O₂ dissous, sans
-particules interactives. La collecte manuelle est une action sur la membrane.
-Le stock initial de nutriments est fini ; sa collecte automatique reste à
-développer. Le stockage et les conduits sont affichés désactivés puisqu'ils ne
+L'environnement est pour l'instant un réservoir uniforme d'O₂ et de nutriments
+dissous, sans particules interactives. Les échanges ne se font que par les
+sections extérieures : un contact interne ne peut pas puiser dans ce réservoir.
+La collecte manuelle est une action sur la membrane. Les lipides et le phosphore
+restent limités au stock de départ : pour ce parcours, effectuer les deux
+spécialisations avant de dépenser ces matériaux dans des agrandissements.
+La fabrication de nouveaux matériaux de croissance reste à développer.
+Le stockage et les conduits sont affichés désactivés puisqu'ils ne
 simulent pas encore ces fonctions. Les PV, la sauvegarde des parties, le réseau
 multicellulaire et la nouvelle géométrie de croissance restent à développer.
 
@@ -67,6 +87,7 @@ Depuis la racine du dépôt, avec Godot 4.7 dans le PATH :
 godot --headless --path biofactory --import
 godot --headless --path biofactory --script res://tests/test_physiology.gd
 godot --headless --path biofactory --script res://tests/test_membrane_selection.gd
+godot --headless --path biofactory --script res://tests/test_nutrient_collection.gd
 godot --headless --path biofactory --fixed-fps 60 --quit-after 600
 ```
 
@@ -81,6 +102,14 @@ La suite des membranes doit annoncer
 confirmés ou annulés, les portions traversant la fermeture du contour, les
 vraies jonctions, les types et cellules voisines différents, le surlignage et
 la cohérence des longueurs et des coûts.
+
+La suite de nutrition doit annoncer
+`BIOFACTORY_NUTRIENT_TESTS: 79 checks, 0 failures`. Elle vérifie la progression
+et le déblocage réels, dix minutes d'autonomie, les milieux sans ressources,
+la dormance et la récupération, les coûts et inventaires locaux, les délais
+indépendants, l'objectif sans secours et les besoins de plusieurs usines. Une
+deuxième usine construite tôt ne bloque pas le premier déblocage : l'objectif
+ATP/O₂ initial reste distinct de la vérification nutritionnelle d'autonomie.
 
 Les interactions de survol, les menus contextuels et la stabilisation après
 une action de spécialisation ont aussi été vérifiés dans Godot avec affichage

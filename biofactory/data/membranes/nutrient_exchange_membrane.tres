@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="MembraneTypeData" format=3]
+
+[ext_resource type="Script" uid="uid://byqhpp7vdjuhq" path="res://scripts/membranes/membrane_type_data.gd" id="1_type"]
+
+[resource]
+script = ExtResource("1_type")
+id = "nutrient_exchange_membrane"
+display_name = "Membrane d'alimentation"
+description = "Capte les nutriments dissous tout en maintenant un apport d'oxygène. Son entretien coûte davantage d'ATP."
+tags = Array[String](["exchange", "nutrient", "nutrition"])
+build_cost_per_meter = Dictionary[String, float]({
+"lipid": 1.7,
+"phosphorus": 0.3
+})
+maintenance_atp_per_meter_per_second = 0.05
+oxygen_permeability_per_meter_per_second = 0.085
+nutrient_permeability_per_meter_per_second = 0.16
+requires_stabilized_cell = true
+allowed_shared = false
+display_color = Color(0.95, 0.74, 0.32, 1)
+display_width = 6.0

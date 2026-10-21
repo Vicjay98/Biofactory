@@ -29,9 +29,29 @@ les tests du dépôt. Voir le [README](../README.md) pour les commandes, les
 limites du prototype et les gestes de test. Les tableaux plus bas décrivent
 toujours l'état de référence initial, avant ce développement.
 
-La prochaine priorité de conception est d'essayer ce début jouable, de régler
-les débits et de choisir comment introduire la collecte de nutriments. La
-géométrie multicellulaire, les pompes, les dégâts et l'arbre technologique
+La collecte de nutriments est désormais implémentée : un faible apport passif
+existe sur les membranes ordinaires et un secours manuel dispose d'un délai
+indépendant de celui de l'O₂. Après la première stabilisation, une membrane
+d'alimentation se débloque. Elle capte les nutriments tout en conservant un
+apport O₂ plus faible que la spécialisation O₂, avec davantage d'entretien ATP.
+
+Le second objectif demande 30 secondes d'autonomie sans secours. Il vérifie
+les besoins nominaux de toutes les recettes et la capacité des échanges à
+les soutenir avec des réserves saines ; des stocks initiaux ou des usines
+désactivées ne suffisent pas à déclarer la cellule autonome. Une assistance
+manuelle réussie réinitialise ce compteur, tandis que les succès déjà acquis
+restent des étapes historiques. La simulation tient dix minutes après les deux
+spécialisations et peut redémarrer depuis des réserves vides.
+
+La première stabilisation conserve ses critères ATP/O₂. Les faibles réserves
+de nutriments restent diagnostiquées, mais leur seuil sain est exigé pour le
+second objectif : construire tôt une deuxième usine ne doit pas verrouiller
+l'accès à la membrane d'alimentation nécessaire pour résoudre cette pénurie.
+
+La prochaine priorité est d'essayer l'équilibrage et d'introduire la fabrication
+des matériaux de croissance : les lipides et le phosphore restent limités au
+stock initial. L'environnement reste uniforme, sans particules interactives.
+La géométrie multicellulaire, les pompes, les dégâts et l'arbre technologique
 complet restent des étapes ultérieures.
 
 Un premier retour de jeu a corrigé le survol après agrandissement : les

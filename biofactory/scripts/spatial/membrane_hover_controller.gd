@@ -13,6 +13,7 @@ var action_section
 var action_menu: PopupMenu
 var cell: Node2D
 var membrane_menu: bool = true
+var _membrane_type_actions: Dictionary[int, String] = {}
 
 
 func _ready() -> void:
@@ -43,9 +44,7 @@ func _unhandled_input(event: InputEvent) -> void:
     if hovered_section != null:
         action_section = hovered_section
         membrane_menu = true
-        action_menu.clear()
-        action_menu.add_item("", 0)
-        action_menu.add_item("", 1)
+        _build_membrane_menu()
         _update_menu()
     elif boundary.contains_local_point(boundary.get_local_mouse_position()):
         membrane_menu = false
@@ -99,9 +98,12 @@ func _replacement_type() -> String:
     return "basic_membrane" if action_section.membrane_type_id == "oxygen_exchange_membrane" else "oxygen_exchange_membrane"
 
 
-func _replacement_cost() -> Dictionary[String, float]:
+func _replacement_cost(type_id: String = "") -> Dictionary[String, float]:
     var cost: Dictionary[String, float] = {}
-    var data = MembraneTypeDatabase.get_membrane_type(_replacement_type())
+    var target: String = _replacement_type() if type_id.is_empty() else type_id
+    var data = MembraneTypeDatabase.get_membrane_type(target)
+    if data == null:
+        return cost
     var length_m: float = boundary.get_logical_section_length_m(action_section)
     for resource_id in data.build_cost_per_meter:
         cost[resource_id] = data.build_cost_per_meter[resource_id] * length_m
@@ -115,23 +117,76 @@ func _can_pay(cost: Dictionary[String, float]) -> bool:
     return true
 
 
+func _build_membrane_menu() -> void:
+    action_menu.clear()
+    _membrane_type_actions.clear()
+    action_menu.add_item("", 0)
+    action_menu.add_item("", 3)
+    action_menu.add_separator()
+    var types: Array = MembraneTypeDatabase.get_all_membrane_types()
+    for index in range(types.size()):
+        var data = types[index]
+        if data.id == action_section.membrane_type_id:
+            continue
+        var action_id: int = 1 if data.id == _replacement_type() else 10 + index
+        _membrane_type_actions[action_id] = data.id
+        action_menu.add_item(data.display_name, action_id)
+
+
 func _update_menu() -> void:
     if action_section == null or cell.physiology == null:
         return
     var physiology = cell.physiology
+    var oxygen_index: int = action_menu.get_item_index(0)
     var wait: float = physiology.manual_cooldown_remaining
-    var absorption_text: String = "Absorber %.0f O₂ (secours)" % physiology.profile.manual_oxygen_amount
+    var text: String = "Absorber %.0f O₂ (secours)" % physiology.profile.manual_oxygen_amount
     if wait > 0.0:
-        absorption_text += " · %.1f s" % wait
-    action_menu.set_item_text(0, absorption_text)
-    action_menu.set_item_disabled(0, not action_section.is_external or wait > 0.0 or physiology.get_oxygen_ratio() >= physiology.profile.ambient_oxygen)
-    var data = MembraneTypeDatabase.get_membrane_type(_replacement_type())
-    var costs := PackedStringArray()
-    var cost: Dictionary[String, float] = _replacement_cost()
+        text += " · %.1f s" % wait
+    action_menu.set_item_text(oxygen_index, text)
+    action_menu.set_item_disabled(oxygen_index, not action_section.is_external or wait > 0.0 or physiology.get_oxygen_ratio() >= physiology.profile.ambient_oxygen)
+    var nutrient_index: int = action_menu.get_item_index(3)
+    if nutrient_index >= 0:
+        wait = physiology.nutrient_cooldown_remaining
+        text = "Absorber %.0f nutriments (secours)" % physiology.profile.manual_nutrient_amount
+        if wait > 0.0:
+            text += " · %.1f s" % wait
+        action_menu.set_item_text(nutrient_index, text)
+        action_menu.set_item_disabled(nutrient_index, not action_section.is_external or wait > 0.0 or physiology.get_nutrient_ratio() >= physiology.profile.ambient_nutrient)
+    for action_id in _membrane_type_actions:
+        var type_id: String = _membrane_type_actions[action_id]
+        var data = MembraneTypeDatabase.get_membrane_type(type_id)
+        var locked: bool = data.requires_stabilized_cell and not physiology.stabilized
+        var costs := PackedStringArray()
+        var available := PackedStringArray()
+        var cost: Dictionary[String, float] = _replacement_cost(type_id)
+        for resource_id in cost:
+            var resource_name: String = ResourceDatabase.get_resource(resource_id).display_name
+            costs.append("%.1f %s" % [cost[resource_id], resource_name])
+            available.append("%.1f %s" % [cell.inventory.get_amount(resource_id), resource_name])
+        var index: int = action_menu.get_item_index(action_id)
+        text = data.display_name + " · " + ", ".join(costs)
+        if locked:
+            text += " · après stabilisation"
+        action_menu.set_item_text(index, text)
+        action_menu.set_item_disabled(index, locked or not action_section.is_external or not data.allowed_external or not _can_pay(cost))
+        var upkeep: float = boundary.get_logical_section_length_m(action_section) * data.maintenance_atp_per_meter_per_second
+        action_menu.set_item_tooltip(index, data.description + "\nDisponible : " + ", ".join(available) + "\nEntretien de cette membrane : %.2f ATP/s" % upkeep)
+
+
+func _change_membrane(type_id: String) -> bool:
+    if action_section == null or not boundary.membrane_sections.has(action_section) or not action_section.is_external:
+        return false
+    if not MembraneTypeDatabase.has_membrane_type(type_id) or type_id == action_section.membrane_type_id:
+        return false
+    var data = MembraneTypeDatabase.get_membrane_type(type_id)
+    if not data.allowed_external or (data.requires_stabilized_cell and not cell.physiology.stabilized):
+        return false
+    var cost: Dictionary[String, float] = _replacement_cost(type_id)
+    if not _can_pay(cost) or not boundary.set_section_membrane_type(action_section.section_id, type_id):
+        return false
     for resource_id in cost:
-        costs.append("%.1f %s" % [cost[resource_id], ResourceDatabase.get_resource(resource_id).display_name])
-    action_menu.set_item_text(1, data.display_name + " · " + ", ".join(costs))
-    action_menu.set_item_disabled(1, not action_section.is_external or not _can_pay(cost))
+        cell.inventory.remove_resource(resource_id, cost[resource_id])
+    return true
 
 
 func _on_action(action: int) -> void:
@@ -143,14 +198,9 @@ func _on_action(action: int) -> void:
         return
     if action == 0:
         cell.physiology.absorb_oxygen(action_section)
-        return
-    if action != 1 or not action_section.is_external:
-        return
-    var cost: Dictionary[String, float] = _replacement_cost()
-    if not _can_pay(cost):
-        return
-    var replacement: String = _replacement_type()
-    if not boundary.set_section_membrane_type(action_section.section_id, replacement):
-        return
-    for resource_id in cost:
-        cell.inventory.remove_resource(resource_id, cost[resource_id])
+    elif action == 3:
+        cell.physiology.absorb_nutrients(action_section)
+    elif _membrane_type_actions.has(action):
+        _change_membrane(_membrane_type_actions[action])
+    elif action == 1:
+        _change_membrane(_replacement_type())

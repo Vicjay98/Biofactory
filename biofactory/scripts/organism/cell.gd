@@ -15,6 +15,7 @@ const CellPhysiologyScript = preload("res://scripts/organism/cell_physiology.gd"
 
 var physiology
 var oxygen_conductance: float = 0.0
+var nutrient_conductance: float = 0.0
 
 
 @export var cell_id: String = "starter_cell"
@@ -150,6 +151,7 @@ func _exit_tree() -> void:
 func recalculate_membrane_maintenance() -> void:
     membrane_maintenance_atp_per_second = 0.0
     oxygen_conductance = 0.0
+    nutrient_conductance = 0.0
 
     if boundary == null:
         return
@@ -173,6 +175,9 @@ func recalculate_membrane_maintenance() -> void:
         if section.is_external:
             oxygen_conductance += (
                 section_length * membrane_data.oxygen_permeability_per_meter_per_second
+            )
+            nutrient_conductance += (
+                section_length * membrane_data.nutrient_permeability_per_meter_per_second
             )
 
 

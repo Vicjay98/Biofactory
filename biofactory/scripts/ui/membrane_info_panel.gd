@@ -93,11 +93,17 @@ func refresh_contents() -> void:
         if not target_section.is_external:
             intake = 0.0
         lines.append("O₂ entrant par cette section : %.2f/s" % intake)
-        lines.append("Clic droit : secours O₂ ou spécialisation")
+        gradient = maxf(physiology.profile.ambient_nutrient - physiology.get_nutrient_ratio(), 0.0)
+        intake = length_m * data.nutrient_permeability_per_meter_per_second * gradient
+        if not target_section.is_external:
+            intake = 0.0
+        lines.append("Nutriments entrants : %.2f/s" % intake)
+        lines.append("Clic droit : collecte de secours ou spécialisation")
     else:
         title_label.text = target_cell.display_name + " · " + physiology.get_state_name()
         lines.append("Surface : %.2f m²" % target_cell.get_area_m2())
         lines.append("O₂ : %.1f · Entrée : %.2f/s" % [inventory.get_amount("oxygen"), physiology.oxygen_intake_per_second])
+        lines.append("Nutriments : %.1f · Entrée : %.2f/s" % [inventory.get_amount("nutrient"), physiology.nutrient_intake_per_second])
         lines.append("ATP : %.1f · Production : %.2f/s" % [inventory.get_amount("atp"), physiology.atp_production_per_second])
         lines.append("Entretien total : %.2f ATP/s" % physiology.atp_demand_per_second)
         lines.append("Métabolisme : %.0f %%" % (physiology.metabolism * 100.0))

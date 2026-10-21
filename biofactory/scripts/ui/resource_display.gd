@@ -19,7 +19,7 @@ func _ready() -> void:
     for resource_id in ["atp", "oxygen", "nutrient"]:
         labels_by_resource_id[resource_id] = _add_label("")
     objective_label = _add_label("")
-    _add_label("Survolez la cellule, l'usine ou la membrane.\nClic droit sur la membrane : actions O₂.\nClic droit dans la cellule : construction.")
+    _add_label("Survolez la cellule, l'usine ou la membrane.\nClic droit sur la membrane : collecte et échanges.\nClic droit dans la cellule : construction.")
     update_display()
 
 
@@ -52,7 +52,9 @@ func update_display() -> void:
         state_label.text = "CELLULE · " + physiology.get_state_name().to_upper()
         var colors: Array[Color] = [Color(0.4, 0.95, 0.7), Color(1.0, 0.8, 0.4), Color(1.0, 0.45, 0.35), Color(0.8, 0.65, 0.95)]
         state_label.add_theme_color_override("font_color", colors[physiology.state])
-        if physiology.stabilized:
-            objective_label.text = "✓ Première stabilisation réussie !"
+        if physiology.autonomous:
+            objective_label.text = "✓ Première autonomie réussie !"
+        elif physiology.stabilized:
+            objective_label.text = "✓ Première stabilisation réussie !\nObjectif : autonomie sans secours %.0f s\nAutonomie : %.1f / %.0f s\nNouvelle membrane : alimentation" % [physiology.profile.autonomy_seconds, physiology.autonomous_seconds, physiology.profile.autonomy_seconds]
         else:
             objective_label.text = "Objectif : rester stable %.0f s\nStabilité : %.1f / %.0f s" % [physiology.profile.stabilization_seconds, physiology.stable_seconds, physiology.profile.stabilization_seconds]
